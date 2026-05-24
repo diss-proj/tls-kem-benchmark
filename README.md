@@ -1,3 +1,7 @@
+# TLS 1.3 Handshake Benchmarking Suite
+This benchmarking suite is a modified version of the one used by Henrich et al 
+2023, found [here](https://code.fbi.h-da.de/pqc-benchmarking/benchmarking-pqc-in-tls).
+
 # PQC in TLS
 
 Mit Hilfe dieses Projekts sollen verschiedene PQC Algorithmen für Schlüsselaustausch und Authentifizierung auf ihre Performanz hin evaluiert werden. Dazu werden die Algorithmen in TLS 1.3  integriert und anhand eines Frameworks des Linux Kernels zur Netzwerkemulation getestet.
