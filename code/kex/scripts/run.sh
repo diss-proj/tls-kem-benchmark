@@ -3,7 +3,10 @@ set -ex
 
 sh scripts/setup.sh
 
-python3 scripts/experiment.py testscenarios/scenario_delay_minRate.csv testscenarios/scenario_rate_cli.csv testscenarios/scenario_rate_both.csv testscenarios/scenario_rate_srv.csv testscenarios/scenario_rate_both_duplicate.csv
+export OPENSSL_CONF=/home/diss/mlkem-hqc-testing-framework/_build/oqs-provider/scripts/openssl-ca.cnf
+export OPENSSL_MODULES=/home/diss/mlkem-hqc-testing-framework/_build/oqs-provider/_build/lib
+python3 scripts/experiment.py testscenarios/scenario_delay_minRate.csv 
+#testscenarios/scenario_rate_cli.csv testscenarios/scenario_rate_both.csv testscenarios/scenario_rate_srv.csv testscenarios/scenario_rate_both_duplicate.csv
 
 sh scripts/teardown.sh
 

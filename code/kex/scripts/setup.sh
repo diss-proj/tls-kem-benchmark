@@ -2,12 +2,15 @@
 set -ex
 
 ROOT="$(dirname $(pwd))"
+PROJECT_ROOT=${ROOT}/../../
+echo $ROOT
 
-OPENSSL=${ROOT}/tmp/openssl/apps/openssl
-OPENSSL_CNF=${ROOT}/tmp/openssl/apps/openssl.cnf
+OPENSSL=${PROJECT_ROOT}/_build/oqs-provider/openssl/apps/openssl
+OPENSSL_CNF=${PROJECT_ROOT}/_build/oqs-provider/scripts/openssl-ca.cnf
+OPENSSL_MODULES=${PROJECT_ROOT}/_build/oqs-provider/_build/lib
 
-NGINX_APP=${ROOT}/tmp/nginx/sbin/nginx
-NGINX_CONF_DIR=${ROOT}/tmp/nginx/conf
+NGINX_APP=${ROOT}/../code/nginx/sbin/nginx
+NGINX_CONF_DIR=${ROOT}/../code/nginx/conf
 
 ##########################
 # Build s_timer
@@ -38,4 +41,6 @@ ${OPENSSL} x509 -req -in ${NGINX_CONF_DIR}/server.csr -out ${NGINX_CONF_DIR}/ser
 # Start nginx
 ##########################
 cp nginx.conf ${NGINX_CONF_DIR}/nginx.conf
-ip netns exec srv_ns ${NGINX_APP}
+ip netns exec srv_ns bash -c "export OPENSSL_CONF=/home/diss/mlkem-hqc-testing-framework/_build/oqs-provider/scripts/openssl-ca.cnf; \
+export OPENSSL_MODULES=/home/diss/mlkem-hqc-testing-framework/_build/oqs-provider/_build/lib; \
+${NGINX_APP}"

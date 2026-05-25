@@ -87,6 +87,7 @@ int main(int argc, char* argv[])
     ssl_ctx = SSL_CTX_new(ssl_meth);
     if (!ssl_ctx)
     {
+        fprintf(stderr, "1");
         goto ossl_error;
     }
 
@@ -100,12 +101,14 @@ int main(int argc, char* argv[])
     ret = SSL_CTX_set_min_proto_version(ssl_ctx, TLS1_3_VERSION);
     if (ret != 1)
     {
+        fprintf(stderr, "2");
         goto ossl_error;
     }
 
     ret = SSL_CTX_set_max_proto_version(ssl_ctx, TLS1_3_VERSION);
     if (ret != 1)
     {
+        fprintf(stderr, "3");
         goto ossl_error;
     }
 
@@ -114,17 +117,20 @@ int main(int argc, char* argv[])
     ret = SSL_CTX_set_ciphersuites(ssl_ctx, ciphersuites);
     if (ret != 1)
     {
+        fprintf(stderr, "4");
         goto ossl_error;
     }
     ret = SSL_CTX_set1_groups_list(ssl_ctx, kex_alg);
     if (ret != 1)
     {
+        fprintf(stderr, "5");
         goto ossl_error;
     }
 
-    ret = SSL_CTX_load_verify_locations(ssl_ctx, "../tmp/nginx/conf/CA.crt", 0);
+    ret = SSL_CTX_load_verify_locations(ssl_ctx, "../nginx/conf/CA.crt", 0);
     if(ret != 1)
     {
+        fprintf(stderr, "6");
         goto ossl_error;
     }
     SSL_CTX_set_verify(ssl_ctx, SSL_VERIFY_PEER, NULL);

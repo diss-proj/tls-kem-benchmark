@@ -1,7 +1,8 @@
 #!/bin/bash
+set -x
 
 ROOT="$(dirname $(pwd))"
-NGINX_APP=${ROOT}/tmp/nginx/sbin/nginx
+NGINX_APP=${ROOT}/nginx/sbin/nginx
 
 ##########################
 # Stop nginx

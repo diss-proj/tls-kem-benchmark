@@ -1,14 +1,14 @@
 import csv
-from multiprocessing import Pool
+from multiprocessing import Pool, freeze_support
 import os
 import subprocess
 import networkmgmt
 import sys
 
-POOL_SIZE = 7 
+POOL_SIZE = 7
 
-MEASUREMENTS_PER_TIMER = 20 
-TIMERS = 10 
+MEASUREMENTS_PER_TIMER = 1
+TIMERS = 1
 
 DEFAULT_SCENARIO_TO_TEST = 'scenario_packetloss.csv'
 ALGORITHMS_TO_TEST = 'algorithms.csv'
@@ -20,12 +20,15 @@ algorithm_class_descriptions = []
 scenariodescription = []
 
 def run_subprocess(command, working_dir='.', expected_returncode=0):
+    print(command)
     result = subprocess.run(
         command,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        #stdout=subprocess.PIPE,
+        #stderr=subprocess.PIPE,
         cwd=working_dir
     )
+    if(result.stdout):
+        print(stdout)
     if(result.stderr):
         print(result.stderr)
     assert result.returncode == expected_returncode
@@ -34,6 +37,7 @@ def run_subprocess(command, working_dir='.', expected_returncode=0):
 # do TLS handshake (s_timer.c)
 def time_handshake(kex_alg, measurements):
     command = [
+        'strace',
         'ip', 'netns', 'exec', 'cli_ns',
         './s_timer.o', kex_alg, str(measurements)
     ]
@@ -86,19 +90,20 @@ def setup(name_of_scenariofile):
     return make_dirs()
 
 # Main
-timer_pool = Pool(processes=POOL_SIZE)
+if __name__ == '__main__':
+    timer_pool = Pool(processes=POOL_SIZE)
 
-scenariofiles = []
+    scenariofiles = []
 
 # Check for handed scenarios
-if len(sys.argv) > 1:
+    if len(sys.argv) > 1:
         for i in range (1, len(sys.argv)):
-                print(sys.argv[i])
-                scenariofiles.append(sys.argv[i])
-else:
+            print(sys.argv[i])
+            scenariofiles.append(sys.argv[i])
+    else:
         scenariofiles.append(DEFAULT_SCENARIO_TO_TEST)
 
-for scenariofile in scenariofiles:
+    for scenariofile in scenariofiles:
         paramsets = []
         directory = setup(scenariofile)
 
@@ -107,22 +112,22 @@ for scenariofile in scenariofiles:
         networkmgmt.change_qdisc('cli_ns', 'cli_ve', 0, paramsets[0][9], 0, 0, 0, 0, paramsets[0][14])
         rtt_str = networkmgmt.get_rtt_ms()
 
-        # set network parameters of scenario
+            # set network parameters of scenario
         for paramset in paramsets:
-                networkmgmt.change_qdisc('srv_ns', 'srv_ve', paramset[1], paramset[2], paramset[3], paramset[4], paramset[5], paramset[6], paramset[7])
-                networkmgmt.change_qdisc('cli_ns', 'cli_ve', paramset[8], paramset[9], paramset[10], paramset[11], paramset[12], paramset[13], paramset[14])
+            networkmgmt.change_qdisc('srv_ns', 'srv_ve', paramset[1], paramset[2], paramset[3], paramset[4], paramset[5], paramset[6], paramset[7])
+            networkmgmt.change_qdisc('cli_ns', 'cli_ve', paramset[8], paramset[9], paramset[10], paramset[11], paramset[12], paramset[13], paramset[14])
 
-                index = 0
-                for algorithmclass in algorithmlist:
-                        for kex_alg in algorithmclass:
-                                    print('{}/{}/{}.csv'.format(directory, algorithm_class_descriptions[index], kex_alg))
-                                    with open('{}/{}/{}.csv'.format(directory, algorithm_class_descriptions[index], kex_alg),'a') as out:
-                                            csv_out = csv.writer(out)
-                                            result = run_timers(kex_alg, timer_pool)
-                                            result.insert(0, '{}'.format(ROW_NAMES[index]))
-                                            csv_out.writerow(result)
-                        index = index + 1
+            index = 0
+            for algorithmclass in algorithmlist:
+                for kex_alg in algorithmclass:
+                    print('{}/{}/{}.csv'.format(directory, algorithm_class_descriptions[index], kex_alg))
+                    with open('{}/{}/{}.csv'.format(directory, algorithm_class_descriptions[index], kex_alg),'a') as out:
+                        csv_out = csv.writer(out)
+                        result = run_timers(kex_alg, timer_pool)
+                        result.insert(0, '{}'.format(ROW_NAMES[index]))
+                        csv_out.writerow(result)
+                    index = index + 1
         scenariodescription.pop(0)
 
-timer_pool.close()
-timer_pool.join()
+    timer_pool.close()
+    timer_pool.join()
