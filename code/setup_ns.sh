@@ -55,11 +55,11 @@ ip netns exec ${CLIENT_NS} \
 
 # Turn off optimizations
 # that dent realism.
-ip netns exec ${CLIENT_NS} \
-   ethtool -K ${CLIENT_VETH} gso off gro off tso off
+#ip netns exec ${CLIENT_NS} \
+#   ethtool -K ${CLIENT_VETH} gso off gro off tso off
 
-ip netns exec ${SERVER_NS} \
-   ethtool -K ${SERVER_VETH} gso off gro off tso off
+#ip netns exec ${SERVER_NS} \
+#   ethtool -K ${SERVER_VETH} gso off gro off tso off
 
 # Add netem as qdisc for traffic control
 ip netns exec ${CLIENT_NS} \

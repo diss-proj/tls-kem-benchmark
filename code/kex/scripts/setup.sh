@@ -5,12 +5,14 @@ ROOT="$(dirname $(pwd))"
 PROJECT_ROOT=${ROOT}/../../
 echo $ROOT
 
-OPENSSL=/opt/openssl/apps/openssl
-OPENSSL_CNF=/opt/openssl/.openssl/ssl/openssl.cnf
-OPENSSL_MODULES=/opt/openssl/.openssl/lib/ossl-modules
+OPENSSL=/opt/openssl/bin/openssl
+OPENSSL_CNF=/opt/openssl/ssl/openssl.cnf
+OPENSSL_MODULES=/opt/openssl/lib/ossl-modules
 
 NGINX_APP=/opt/nginx/sbin/nginx
 NGINX_CONF_DIR=/opt/nginx/conf
+
+HTTPD_APP=/opt/httpd/bin/apachectl
 
 ##########################
 # Build s_timer
@@ -61,5 +63,5 @@ ${ROOT}/setup_ns.sh
 ##########################
 #cp nginx.conf ${NGINX_CONF_DIR}/nginx.conf
 # export OPENSSL_MODULES=/lib; \
-ip netns exec srv_ns bash -c "export OPENSSL_CONF=/opt/openssl/.openssl/ssl/openssl.cnf; \
-${NGINX_APP};"
+ip netns exec srv_ns bash -c "export OPENSSL_CONF=/opt/openssl/ssl/openssl.cnf; \
+${HTTPD_APP};"
