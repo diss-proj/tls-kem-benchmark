@@ -52,8 +52,8 @@ cd nginx-${NGINX_VERSION}
                 --with-http_ssl_module --with-openssl=${PROJECT_ROOT}/_build/oqs-provider/openssl \
                 --without-http_gzip_module \
                 --without-http_rewrite_module \
-                --with-cc-opt="-I ${PROJECT_ROOT}/_build/oqs-provider/openssl/oqs/include" \
-                --with-ld-opt="-L ${PROJECT_ROOT}/_build/oqs-provider/openssl/oqs/lib";
+                #--with-cc-opt="-I ${PROJECT_ROOT}/_build/oqs-provider/openssl/include" \
+                #--with-ld-opt="-L ${PROJECT_ROOT}/_build/oqs-provider/_build/lib";
 #sed -i 's/libcrypto.a/libcrypto.a -loqs/g' objs/Makefile;
-sed -i 's/EVP_MD_CTX_create/EVP_MD_CTX_new/g; s/EVP_MD_CTX_destroy/EVP_MD_CTX_free/g' src/event/ngx_event_openssl.c;
+#sed -i 's/EVP_MD_CTX_create/EVP_MD_CTX_new/g; s/EVP_MD_CTX_destroy/EVP_MD_CTX_free/g' src/event/ngx_event_openssl.c;
 make && make install;

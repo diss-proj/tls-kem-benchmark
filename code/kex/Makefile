@@ -1,5 +1,5 @@
 ROOT=$(shell dirname $(shell pwd))/../..
-OPENSSL_DIR=$(ROOT)/_build/oqs-provider/openssl
+OPENSSL_DIR=/opt/openssl
 
 OPENSSL_INCLUDE=$(OPENSSL_DIR)/include
 OPENSSL=$(OPENSSL_DIR)/apps/openssl

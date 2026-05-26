@@ -5,10 +5,10 @@ import subprocess
 import networkmgmt
 import sys
 
-POOL_SIZE = 7
+POOL_SIZE = 4
 
-MEASUREMENTS_PER_TIMER = 1
-TIMERS = 1
+MEASUREMENTS_PER_TIMER = 20
+TIMERS = 10
 
 DEFAULT_SCENARIO_TO_TEST = 'scenario_packetloss.csv'
 ALGORITHMS_TO_TEST = 'algorithms.csv'
@@ -23,12 +23,11 @@ def run_subprocess(command, working_dir='.', expected_returncode=0):
     print(command)
     result = subprocess.run(
         command,
-        #stdout=subprocess.PIPE,
-        #stderr=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
         cwd=working_dir
     )
-    if(result.stdout):
-        print(stdout)
+    print(result.stdout)
     if(result.stderr):
         print(result.stderr)
     assert result.returncode == expected_returncode
@@ -37,7 +36,6 @@ def run_subprocess(command, working_dir='.', expected_returncode=0):
 # do TLS handshake (s_timer.c)
 def time_handshake(kex_alg, measurements):
     command = [
-        'strace',
         'ip', 'netns', 'exec', 'cli_ns',
         './s_timer.o', kex_alg, str(measurements)
     ]
@@ -126,7 +124,7 @@ if __name__ == '__main__':
                         result = run_timers(kex_alg, timer_pool)
                         result.insert(0, '{}'.format(ROW_NAMES[index]))
                         csv_out.writerow(result)
-                    index = index + 1
+                index = index + 1
         scenariodescription.pop(0)
 
     timer_pool.close()

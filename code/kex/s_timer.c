@@ -68,12 +68,13 @@ int main(int argc, char* argv[])
 {
     int ret = -1;
     SSL_CTX* ssl_ctx = 0;
-    if(argc != 3)
+    if(argc != 4)
     {
         fprintf(stderr, "Wrong number of arguments.\n");
         goto end;
     }
     const char* kex_alg = argv[1];
+    const char* sig_alg = argv[3];
     const size_t measurements_to_make = strtol(argv[2], 0, 10);
     size_t measurements = 0;
 
@@ -127,7 +128,25 @@ int main(int argc, char* argv[])
         goto ossl_error;
     }
 
-    ret = SSL_CTX_load_verify_locations(ssl_ctx, "../nginx/conf/CA.crt", 0);
+    ret = SSL_CTX_set1_client_sigalgs_list(ssl_ctx, sig_alg);
+    {
+        fprintf(stderr, "sig");
+        goto ossl_error;
+    }
+
+    ret = SSL_CTX_load_verify_locations(ssl_ctx, "../nginx/conf/mldsa44.crt", 0);
+    if(ret != 1)
+    {
+        fprintf(stderr, "6");
+        goto ossl_error;
+    }
+    ret = SSL_CTX_load_verify_locations(ssl_ctx, "../nginx/conf/mldsa65.crt", 0);
+    if(ret != 1)
+    {
+        fprintf(stderr, "6");
+        goto ossl_error;
+    }
+    ret = SSL_CTX_load_verify_locations(ssl_ctx, "../nginx/conf/mldsa87.crt", 0);
     if(ret != 1)
     {
         fprintf(stderr, "6");
