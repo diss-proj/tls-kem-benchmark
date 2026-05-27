@@ -53,7 +53,7 @@ os.makedirs(CONFIG_DIR, exist_ok=True)
 with open(f'{CONFIG_DIR}/packet_loss.csv', 'w') as csv_file:
     writer = csv.writer(csv_file)
     writer.writerow(headings)
-    for rate in range(1,6,1):
+    for rate in range(0,6,1):
         write_csv_rule(writer, packet_loss=rate)
     for rate in range(6,11,1):
         write_csv_rule(writer, packet_loss=rate, batch_count=300)
