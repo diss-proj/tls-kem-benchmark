@@ -19,15 +19,16 @@ RESULTS_DIR = './test-results/raw'
 DEBUG=True
 
 ##### Setup
-test_config_files = argv[1:]
-algorithms = {}
+if __name__ == "__main__":
+    test_config_files = argv[1:]
+    algorithms = {}
 # algorithms is a dict of KEMs at different security levels.
 # e.g. algorithms["secLevel1"] = ["hqc128", "mlkem512"]
 
-with open(ALGORITHMS_CONFIG, "r") as algs_file:
-    for line in algs_file.readlines():
-        _vals = line.split(",")
-        algorithms[_vals[0]] = _vals[1:]
+    with open(ALGORITHMS_CONFIG, "r") as algs_file:
+        for line in algs_file.readlines():
+            _vals = line.split(",")
+            algorithms[_vals[0]] = _vals[1:]
 
 ##### Results Directory Format Example
 #   results
