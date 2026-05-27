@@ -28,8 +28,8 @@ def run_subprocess(command, working_dir='.', expected_returncode=0):
         stderr=subprocess.PIPE,
         cwd=working_dir
     )
-    #print(command)
-    #print(result.stdout)
+    print(command)
+    print(result.stdout)
     if(result.stderr):
         print(result.stderr)
     assert result.returncode == expected_returncode
