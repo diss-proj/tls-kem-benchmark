@@ -1,5 +1,5 @@
 #!/bin/bash
-TEST_CPUS = "0-7"
+TEST_CPUS="0-7"
 # which CPUs should be used for testing processes
 # shouldn't be the same as the ones hosting the test web servers.
 set -ex
