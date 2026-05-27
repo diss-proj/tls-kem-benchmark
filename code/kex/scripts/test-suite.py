@@ -9,12 +9,14 @@ from networkmgmt import run_subprocess, change_network_settings
 from definetests import headings
 from tqdm import tqdm
 from datetime import datetime, timezone
+from multiprocessing import Pool
 
 ###### Globals
-CLIENT_POOL_SIZE = 4
+CLIENT_POOL_SIZE = 8
 ALGORITHMS_CONFIG = './algorithms.csv' 
-MEASUREMENTS_PER_TIMER = 20
+MEASUREMENTS_PER_TIMER = 5
 RESULTS_DIR = './test-results/raw'
+DEBUG=True
 
 ##### Setup
 test_config_files = argv[1:]
@@ -41,19 +43,35 @@ with open(ALGORITHMS_CONFIG, "r") as algs_file:
 
 ##### time_handshake - from henrich et al 2023
 
-def time_handshake(kem_algorithm: str, measurements: int):
+def time_handshake(kem_algorithm: str):
     """time several tls 1.3 handshakes using a specific 
     KEM and record their durations.
     """
     command = [
         'ip', 'netns', 'exec', 'cli_ns',
-        './s_timer.o', kem_algorithm, str(measurements),
-    ]
-    result = run_subprocess(command)
+        './s_timer.o', kem_algorithm, str(MEASUREMENTS_PER_TIMER), 
+    ] 
+    result = run_subprocess(command, debug=DEBUG)
     return [float(i) for i in result.strip().split(',')]
 
 ##### test_algorithm - run a full test set (e.g. packet loss) for one 
 ##### algorithm
+def run_tests_with_pool(kem_algorithm: str, measurements: int):
+    """times the handshakes for a batch using several threads
+    Arguments:
+    kem_algorithm - the OQS name (e.g. hqc128) of the algorithm being
+        tested
+    measurements - the total number of measurements needed
+    """
+    iterations = measurements // MEASUREMENTS_PER_TIMER
+    commands = [(kem_algorithm,)] * iterations
+    with Pool(CLIENT_POOL_SIZE) as pool:
+        nested_results = pool.starmap(
+            time_handshake, 
+            commands
+        )
+    return [item for sublist in nested_results for item in sublist]
+
 def test_algorithm(config_file: str, algorithm: str, results_dir: str):
     """Run all the test batches for one KEM e.g. hqc128
     as defined by a config file.
@@ -95,13 +113,8 @@ def test_algorithm(config_file: str, algorithm: str, results_dir: str):
                 init_cnwd_size = batch["init_cnwd_size"],
                 mtu_bytes = batch["mtu_bytes"]
             )
-            results = []
-            for x in range(batch_size // MEASUREMENTS_PER_TIMER):
-                results.extend(
-                    time_handshake(algorithm, MEASUREMENTS_PER_TIMER)
-                        )
-                pbar.update(MEASUREMENTS_PER_TIMER)
-
+            results = run_tests_with_pool(algorithm, batch_size)
+            pbar.update(batch_size)
             with open(f"{results_dir}/batch-{batch_number}.data", "w") as batch_results:
                 batch_results.write(str(results)[1:-1])
             params_writer.writerow(([batch_number] + list(batch.values())))
@@ -130,7 +143,8 @@ def test_set(config_file: str):
             test_algorithm(config_file, algorithm, alg_results_path)
 
 ######################### Testing ############################################
-for test_set_config in test_config_files:
-    test_set(test_set_config)
+if __name__ == "__main__":
+    for test_set_config in test_config_files:
+        test_set(test_set_config)
 
 

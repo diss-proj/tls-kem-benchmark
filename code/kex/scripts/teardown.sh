@@ -21,3 +21,6 @@ rm -r scripts/__pycache__
 ##########################
 ip netns del cli_ns
 ip netns del srv_ns
+
+# kill any leftover server processes
+pkill httpd

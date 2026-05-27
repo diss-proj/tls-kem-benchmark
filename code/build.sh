@@ -97,6 +97,7 @@ cd /opt/httpd-${HTTPD_VERSION}
                     --enable-debugger-mode \
                     --enable-ssl --with-ssl="${OPENSSL_PATH}" \
                     --enable-ssl-staticlib-deps \
+                    --with-mpm=prefork \
                     --enable-mods-static=ssl && \
     make -j"$(nproc)" && make install;
 
