@@ -8,8 +8,8 @@ sh scripts/teardown.sh
 sh scripts/setup.sh
 python3 scripts/definetests.py
 
-export OPENSSL_CONF=/home/diss/mlkem-hqc-testing-framework/_build/oqs-provider/scripts/openssl-ca.cnf
-export OPENSSL_MODULES=/home/diss/mlkem-hqc-testing-framework/_build/oqs-provider/_build/lib
+export OPENSSL_CONF=/opt/openssl/ssl/openssl.cnf
+export OPENSSL_MODULES=/opt/openssl/lib/ossl-modules
 taskset -c ${TEST_CPUS} python3 scripts/test-suite.py experiment-configs/latency.csv
 #testscenarios/scenario_rate_cli.csv testscenarios/scenario_rate_both.csv testscenarios/scenario_rate_srv.csv testscenarios/scenario_rate_both_duplicate.csv
 
