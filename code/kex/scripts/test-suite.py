@@ -131,15 +131,15 @@ def test_set(config_file: str):
     """
     test_set_name = config_file.split("/")[-1].removesuffix(".csv")
     results_path = f"{RESULTS_DIR}/{test_set_name}"
-    os.makedirs(results_path exist_ok=True)
+    os.makedirs(results_path, exist_ok=True)
 
     for security_level in algorithms.keys():
         sec_level_results_path = f"{results_path}/{security_level}"
-        os.makedirs(sec_level_results_path exist_ok=True)
+        os.makedirs(sec_level_results_path, exist_ok=True)
 
         for algorithm in algorithms[security_level]:
             alg_results_path = f"{sec_level_results_path}/{algorithm}"
-            os.makedirs(alg_results_path exist_ok=True)
+            os.makedirs(alg_results_path, exist_ok=True)
             test_algorithm(config_file, algorithm, alg_results_path)
 
 ######################### Testing ############################################
