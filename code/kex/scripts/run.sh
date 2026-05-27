@@ -6,6 +6,7 @@ set -ex
 
 sh scripts/teardown.sh
 sh scripts/setup.sh
+python3 scripts/definetests.py
 
 export OPENSSL_CONF=/home/diss/mlkem-hqc-testing-framework/_build/oqs-provider/scripts/openssl-ca.cnf
 export OPENSSL_MODULES=/home/diss/mlkem-hqc-testing-framework/_build/oqs-provider/_build/lib
