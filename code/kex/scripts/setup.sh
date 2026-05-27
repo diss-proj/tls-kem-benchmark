@@ -13,6 +13,7 @@ NGINX_APP=/opt/nginx/sbin/nginx
 NGINX_CONF_DIR=/opt/nginx/conf
 
 HTTPD_APP=/opt/httpd/bin/apachectl
+SERVER_CPU_LIST="8-15"
 
 ##########################
 # Build s_timer
@@ -64,4 +65,4 @@ ${ROOT}/setup_ns.sh
 #cp nginx.conf ${NGINX_CONF_DIR}/nginx.conf
 # export OPENSSL_MODULES=/lib; \
 ip netns exec srv_ns bash -c "export OPENSSL_CONF=/opt/openssl/ssl/openssl.cnf; \
-${HTTPD_APP};"
+taskset -c ${SERVER_CPU_LIST} ${HTTPD_APP};"
