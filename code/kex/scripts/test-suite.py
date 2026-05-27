@@ -74,10 +74,10 @@ def test_algorithm(config_file: str, algorithm: str, results_dir: str):
         total_samples = pd.read_csv(test_csv)['batch_count'].sum()
         # ^ get total size of the test set to display a progress bar
     
+    pbar = tqdm(total=total_samples, desc=f"{config_file}: {algorithm}")
     with open(config_file, "r") as test_csv,\
     open(f"{results_dir}/batch-parameters.csv", "w") as batch_params_file:
 
-        pbar = tqdm(total=total_samples, desc=f"{config_file}: {algorithm}")
 
         params_writer = csv.writer(batch_params_file)
         params_writer.writerow((['batch_number'] + headings))
@@ -107,7 +107,7 @@ def test_algorithm(config_file: str, algorithm: str, results_dir: str):
             params_writer.writerow(([batch_number] + list(batch.items())))
             batch_number += 1
 
-            pbar.close()
+    pbar.close()
 
     
 
