@@ -104,7 +104,7 @@ def test_algorithm(config_file: str, algorithm: str, results_dir: str):
 
             with open(f"{results_dir}/batch-{batch_number}.data", "w") as batch_results:
                 batch_results.write(str(results)[1:-1])
-            params_writer.writerow(([batch_number] + list(batch.items())))
+            params_writer.writerow(([batch_number] + list(batch.values())))
             batch_number += 1
 
     pbar.close()
