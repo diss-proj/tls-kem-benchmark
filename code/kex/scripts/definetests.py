@@ -28,7 +28,7 @@ if os.getcwd().strip("/").endswith('/scripts'):
 # functions
 def write_csv_rule(
     writer: csv.writer,
-    batch_count: int = 500,
+    batch_count: int = 700,
     packet_loss: int = 0,
     delay: int = 1,
     client_rate: int = 1000000,
