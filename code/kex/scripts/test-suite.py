@@ -20,7 +20,7 @@ DEBUG=True
 
 ##### Setup
 if __name__ == "__main__":
-    saved_stdout = sys.stdout
+    saved_stdout = stdout
     test_config_files = argv[1:]
     algorithms = {}
 # algorithms is a dict of KEMs at different security levels.

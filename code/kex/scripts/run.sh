@@ -4,7 +4,7 @@ TEST_CPUS="0-7"
 # shouldn't be the same as the ones hosting the test web servers.
 set -ex
 
-sh scripts/teardown.sh
+#sh scripts/teardown.sh
 sh scripts/setup.sh
 python3 scripts/definetests.py
 
