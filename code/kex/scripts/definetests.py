@@ -28,7 +28,7 @@ if os.getcwd().strip("/").endswith('/scripts'):
 # functions
 def write_csv_rule(
     writer: csv.writer,
-    batch_count: int = 700,
+    batch_count: int = 500,
     packet_loss: int = 0,
     delay: int = 1,
     client_rate: int = 1000000,
@@ -56,9 +56,9 @@ with open(f'{CONFIG_DIR}/packet_loss.csv', 'w') as csv_file:
     for rate in range(0,6,1):
         write_csv_rule(writer, packet_loss=rate)
     for rate in range(6,11,1):
-        write_csv_rule(writer, packet_loss=rate, batch_count=300)
-    for rate in range(11,21,1):
         write_csv_rule(writer, packet_loss=rate, batch_count=200)
+    for rate in range(11,21,1):
+        write_csv_rule(writer, packet_loss=rate, batch_count=150)
     for rate in range(25,61, 5):
         write_csv_rule(writer, packet_loss=rate, batch_count=100)
 

@@ -3,7 +3,7 @@
 ###### Imports
 import csv
 import os
-from sys import argv
+from sys import argv, stdout
 import pandas as pd
 from networkmgmt import run_subprocess, change_network_settings
 from definetests import headings
@@ -20,6 +20,7 @@ DEBUG=True
 
 ##### Setup
 if __name__ == "__main__":
+    saved_stdout = sys.stdout
     test_config_files = argv[1:]
     algorithms = {}
 # algorithms is a dict of KEMs at different security levels.
@@ -121,6 +122,7 @@ def test_algorithm(config_file: str, algorithm: str, results_dir: str):
             params_writer.writerow(([batch_number] + list(batch.values())))
             batch_number += 1
 
+    sys.stdout = saved_stdout
     pbar.close()
 
     
