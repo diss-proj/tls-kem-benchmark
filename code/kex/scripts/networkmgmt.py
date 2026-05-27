@@ -87,38 +87,38 @@ def change_network_settings(
     )
 # ip-route commands to change network prameters
 
-    ip_route_client_prefix = [
-        'ip', 'netns', 'exec', Namespaces.CLIENT,
-        'ip', 'route', 'change',
-        'dev', Interfaces.CLIENT
-    ]
-
-    ip_route_server_prefix = [
-        'ip', 'netns', 'exec', Namespaces.SERVER,
-        'ip', 'route', 'change',
-        'dev', Interfaces.SERVER
-    ]
-
-    ip_route_shared_command = [
-        '10.0.0.0/24', 
-        'initcwnd', f'{init_cnwd_size}',
-        'mtu', 'lock', f'{mtu_bytes}' # mtu lock prevents dynamic mtu scaling
-    ]
-    ip_route_client_command = (
-        ip_route_client_prefix +
-        ip_route_shared_command
-    )
-
-    ip_route_server_command = (
-        ip_route_server_prefix +
-        ip_route_shared_command
-    )
+#    ip_route_client_prefix = [
+#        'ip', 'netns', 'exec', Namespaces.CLIENT,
+#        'ip', 'route', 'change',
+#        'dev', Interfaces.CLIENT
+#    ]
+#
+#    ip_route_server_prefix = [
+#        'ip', 'netns', 'exec', Namespaces.SERVER,
+#        'ip', 'route', 'change',
+#        'dev', Interfaces.SERVER
+#    ]
+#
+#    ip_route_shared_command = [
+#        '10.0.0.0/24', 
+#        'initcwnd', f'{init_cnwd_size}',
+#        'mtu', 'lock', f'{mtu_bytes}' # mtu lock prevents dynamic mtu scaling
+#    ]
+#    ip_route_client_command = (
+#        ip_route_client_prefix +
+#        ip_route_shared_command
+#    )
+#
+#    ip_route_server_command = (
+#        ip_route_server_prefix +
+#        ip_route_shared_command
+#    )
 
     # execute commands
     run_subprocess(qdisc_client_command)
     run_subprocess(qdisc_server_command)
-    run_subprocess(ip_route_client_command)
-    run_subprocess(ip_route_server_command)
+    #run_subprocess(ip_route_client_command)
+    #run_subprocess(ip_route_server_command)
 
     
 
