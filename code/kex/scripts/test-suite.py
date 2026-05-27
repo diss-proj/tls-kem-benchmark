@@ -102,10 +102,10 @@ def test_algorithm(config_file: str, algorithm: str, results_dir: str):
                         )
                 pbar.update(MEASUREMENTS_PER_TIMER)
 
-                with open(f"{results_dir}/batch-{batch_number}.data", "w") as batch_results:
-                    batch_results.write(str(results)[1:-1])
-                params_writer.writerow(([batch_number] + list(batch.items())))
-                batch_number += 1
+            with open(f"{results_dir}/batch-{batch_number}.data", "w") as batch_results:
+                batch_results.write(str(results)[1:-1])
+            params_writer.writerow(([batch_number] + list(batch.items())))
+            batch_number += 1
 
             pbar.close()
 
