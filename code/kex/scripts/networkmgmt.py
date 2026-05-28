@@ -74,7 +74,7 @@ def change_network_settings(
     qdisc_shared_command = [
         'root', 'netem', 
         'limit', '100000',
-        'delay', f'{delay}',
+        'delay', f'{delay}ms',
         'loss', f'{packet_loss}%'
     ]
 
