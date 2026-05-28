@@ -44,7 +44,6 @@ if __name__ == "__main__":
 ######################### Test Functions #####################################
 
 ##### time_handshake - from henrich et al 2023
-
 def time_handshake(kem_algorithm: str):
     """time several tls 1.3 handshakes using a specific 
     KEM and record their durations.
@@ -56,7 +55,7 @@ def time_handshake(kem_algorithm: str):
     try:
         result = run_subprocess(command, debug=DEBUG)
     except:
-        result = str([-1.0] * MEASUREMENTS_PER_TIMER)
+        result = str([-1.0] * MEASUREMENTS_PER_TIMER)[1:-1]
     return [float(i) for i in result.strip().split(',')]
 
 ##### test_algorithm - run a full test set (e.g. packet loss) for one 
