@@ -28,7 +28,7 @@ if __name__ == "__main__":
 
     with open(ALGORITHMS_CONFIG, "r") as algs_file:
         for line in algs_file.readlines():
-            _vals = line.split(",")
+            _vals = line.strip().split(",")
             algorithms[_vals[0]] = _vals[1:]
 
 ##### Results Directory Format Example

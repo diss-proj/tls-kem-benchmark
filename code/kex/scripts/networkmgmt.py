@@ -21,7 +21,8 @@ class MAC_Adresses(StrEnum):
     SERVER = '00:00:00:00:00:02'
     CLIENT = '00:00:00:00:00:01'
 
-def run_subprocess(command, working_dir='.', expected_returncode=0, debug=False, timeout=15):
+def run_subprocess(command, working_dir='.', expected_returncode=0, 
+    debug=False, timeout=15, print_command=False):
     result = subprocess.run(
         command,
         stdout=subprocess.PIPE,
@@ -29,7 +30,7 @@ def run_subprocess(command, working_dir='.', expected_returncode=0, debug=False,
         cwd=working_dir,
         timeout=timeout
     )
-    if debug:
+    if debug or print_command:
         print(command)
         print(result.stdout)
     if(result.stderr):
@@ -44,6 +45,7 @@ def change_network_settings(
     server_rate: str = "1000000",
     init_cnwd_size: str = "10",
     mtu_bytes: str = "1500",
+    print_command = False
     ):
     """
     Change the network's virtualised network parameters before a test batch.
@@ -117,8 +119,8 @@ def change_network_settings(
 #    )
 
     # execute commands
-    run_subprocess(qdisc_client_command)
-    run_subprocess(qdisc_server_command)
+    run_subprocess(qdisc_client_command, print_command=True)
+    run_subprocess(qdisc_server_command, print_command=True)
     #run_subprocess(ip_route_client_command)
     #run_subprocess(ip_route_server_command)
 
