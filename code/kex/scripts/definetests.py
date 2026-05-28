@@ -80,31 +80,31 @@ with open(f'{CONFIG_DIR}/bandwidth-client-to-server.csv', 'w') as csv_file:
     writer = csv.writer(csv_file)
     writer.writerow(headings)
     for rate in range(2,10,2):
-        write_csv_rule(writer, client_rate=f'0.0{rate}', batch_count=200)
-    write_csv_rule(writer, client_rate=f'0.1', batch_count=200)
+        write_csv_rule(writer, client_rate=f'0.0{rate}', batch_count=100)
+    write_csv_rule(writer, client_rate=f'0.1', batch_count=100)
     for rate in range(2,10,2):
         write_csv_rule(writer, client_rate=f'0.{rate}', batch_count=200)
     for rate in range(1,11,1):
-        write_csv_rule(writer, client_rate=rate)
+        write_csv_rule(writer, client_rate=rate, batch_count=250)
     for rate in range(15,51,5):
-        write_csv_rule(writer, client_rate=rate)
+        write_csv_rule(writer, client_rate=rate, batch_count=250)
     for rate in range(75,201,25):
-        write_csv_rule(writer, client_rate=rate)
+        write_csv_rule(writer, client_rate=rate, batch_count=250)
 # server -> client
 with open(f'{CONFIG_DIR}/bandwidth-server-to-client.csv', 'w') as csv_file:
     writer = csv.writer(csv_file)
     writer.writerow(headings)
     for rate in range(2,10,2):
-        write_csv_rule(writer, server_rate=f'0.0{rate}', batch_count=200)
-    write_csv_rule(writer, server_rate=f'0.1', batch_count=200)
+        write_csv_rule(writer, server_rate=f'0.0{rate}', batch_count=100)
+    write_csv_rule(writer, server_rate=f'0.1', batch_count=100)
     for rate in range(2,10,2):
         write_csv_rule(writer, server_rate=f'0.{rate}', batch_count=200)
     for rate in range(1,11,1):
-        write_csv_rule(writer, server_rate=rate)
+        write_csv_rule(writer, server_rate=rate, batch_count=250)
     for rate in range(15,51,5):
-        write_csv_rule(writer, server_rate=rate)
+        write_csv_rule(writer, server_rate=rate, batch_count=250)
     for rate in range(75,201,25):
-        write_csv_rule(writer, server_rate=rate)
+        write_csv_rule(writer, server_rate=rate, batch_count=250)
 # bidirectional
 with open(f'{CONFIG_DIR}/bandwidth-bidirectional.csv', 'w') as csv_file:
     writer = csv.writer(csv_file)
