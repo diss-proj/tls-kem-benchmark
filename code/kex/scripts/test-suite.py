@@ -53,7 +53,10 @@ def time_handshake(kem_algorithm: str):
         'ip', 'netns', 'exec', 'cli_ns',
         './s_timer.o', kem_algorithm, str(MEASUREMENTS_PER_TIMER), 
     ] 
-    result = run_subprocess(command, debug=DEBUG)
+    try:
+        result = run_subprocess(command, debug=DEBUG)
+    except:
+        result = [-1.0] * MEASUREMENTS_PER_TIMER
     return [float(i) for i in result.strip().split(',')]
 
 ##### test_algorithm - run a full test set (e.g. packet loss) for one 
