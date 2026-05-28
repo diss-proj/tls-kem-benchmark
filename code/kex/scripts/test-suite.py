@@ -119,10 +119,10 @@ def test_algorithm(config_file: str, algorithm: str, results_dir: str):
             pbar.update(batch_size)
             with open(f"{results_dir}/batch-{batch_number}.data", "w") as batch_results:
                 batch_results.write(str(results)[1:-1])
+            stdout = saved_stdout
             params_writer.writerow(([batch_number] + list(batch.values())))
             batch_number += 1
 
-    sys.stdout = saved_stdout
     pbar.close()
 
     
