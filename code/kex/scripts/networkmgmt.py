@@ -21,13 +21,13 @@ class MAC_Adresses(StrEnum):
     SERVER = '00:00:00:00:00:02'
     CLIENT = '00:00:00:00:00:01'
 
-def run_subprocess(command, working_dir='.', expected_returncode=0, debug=False timeout=30):
+def run_subprocess(command, working_dir='.', expected_returncode=0, debug=False, timeout=30):
     result = subprocess.run(
         command,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         cwd=working_dir,
-        timout=timeout
+        timeout=timeout
     )
     if debug:
         print(command)
