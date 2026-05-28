@@ -14,7 +14,7 @@ from multiprocessing import Pool
 ###### Globals
 CLIENT_POOL_SIZE = 8
 ALGORITHMS_CONFIG = './algorithms.csv' 
-MEASUREMENTS_PER_TIMER = 5
+MEASUREMENTS_PER_TIMER = 1
 RESULTS_DIR = './test-results/raw'
 DEBUG=True
 
@@ -56,7 +56,7 @@ def time_handshake(kem_algorithm: str):
     try:
         result = run_subprocess(command, debug=DEBUG)
     except:
-        result = [-1.0] * MEASUREMENTS_PER_TIMER
+        result = str([-1.0] * MEASUREMENTS_PER_TIMER)
     return [float(i) for i in result.strip().split(',')]
 
 ##### test_algorithm - run a full test set (e.g. packet loss) for one 
