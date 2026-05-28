@@ -56,11 +56,11 @@ with open(f'{CONFIG_DIR}/packet_loss.csv', 'w') as csv_file:
     for rate in range(0,6,1):
         write_csv_rule(writer, packet_loss=rate)
     for rate in range(6,11,1):
-        write_csv_rule(writer, packet_loss=rate, batch_count=200)
+        write_csv_rule(writer, packet_loss=rate, batch_count=250)
     for rate in range(11,21,1):
-        write_csv_rule(writer, packet_loss=rate, batch_count=150)
-    for rate in range(25,61, 5):
-        write_csv_rule(writer, packet_loss=rate, batch_count=100)
+        write_csv_rule(writer, packet_loss=rate, batch_count=200)
+    #for rate in range(25,61, 5):
+    #    write_csv_rule(writer, packet_loss=rate, batch_count=100)
 
 ## Latency/Delay
 with open(f'{CONFIG_DIR}/latency.csv', 'w') as csv_file:
